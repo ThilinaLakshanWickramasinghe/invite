@@ -2133,6 +2133,7 @@
       try {
         var name = new URLSearchParams(window.location.search).get('guest') || new URLSearchParams(window.location.search).get('name');
         if (name && name.trim()) {
+          name = name.replace(/_/g, ' ');
           DEFAULT_GUEST = name.trim();
           var gd = document.getElementById('guest-name-display');
           var rg = document.getElementById('rsvp-guest-name');
