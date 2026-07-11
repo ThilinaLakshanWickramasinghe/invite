@@ -2012,8 +2012,8 @@
           </svg>
           <div style="height:1px; width:40px; background:linear-gradient(to left, transparent, #c9963a);"></div>
         </div>
-        <div class="env-names" id="env-names" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;">Navodya &amp; Thilina</div>
-        <div class="env-date" id="env-date" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;">26 · 08 · 2026</div>
+        <div class="env-names" id="env-names" data-b64="TmF2b2R5YSAmIFRoaWxpbmE=" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;"></div>
+        <div class="env-date" id="env-date" data-b64="MjYgwrcgMDggwrcgMjAyNg==" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;"></div>
         <button class="env-open-btn" id="env-open-btn" style="display:none;" disabled onclick="openInvitation()">Open Invitation</button>
         <div id="env-checking" style="display:none; color:#c9963a; font-size:13px; margin-top:14px; letter-spacing:0.05em;">
           Verifying your invitation…
@@ -2032,7 +2032,7 @@
      ║    FLOATING NAV PILL   ║
      ╚════════════════════════╝ -->
   <div id="nav-pill">
-    <span class="nav-pill-names">Navodya &amp; Thilina</span>
+    <span class="nav-pill-names" data-b64="TmF2b2R5YSAmIFRoaWxpbmE="></span>
     <div class="nav-pill-sep"></div>
     <div class="nav-pill-links">
       <a href="#details">Details</a>
@@ -2085,16 +2085,16 @@
       <div class="cover-label">You are invited</div>
       <div class="cover-line"></div>
       <div class="cover-names">
-        Navodya
+        <span data-b64="TmF2b2R5YQ=="></span>
         <span class="cover-amp">and</span>
-        Thilina
+        <span data-b64="VGhpbGluYQ=="></span>
       </div>
       <div class="cover-sep">
         <div class="cover-sep-line"></div>
         <div class="cover-sep-gem"></div>
         <div class="cover-sep-line"></div>
       </div>
-      <div class="cover-date">26 · AUGUST · 2026</div>
+      <div class="cover-date" data-b64="MjYgwrcgQVVHVVNUIMK3IDIwMjY="></div>
       <div class="cover-tagline">We are getting married!</div>
     </div>
 
@@ -2154,7 +2154,7 @@
       <div class="detail-card reveal-left reveal-delay-1">
         <span class="detail-icon">📅</span>
         <div class="detail-card-title">Date</div>
-        <div class="detail-card-val" style="font-size:24px;">26 August 2026</div>
+        <div class="detail-card-val" style="font-size:24px;" data-b64="MjYgQXVndXN0IDIwMjY="></div>
 
         <div class="detail-card-sub">Saturday</div>
       </div>
@@ -2195,8 +2195,8 @@
             </svg>
           </span>
           <div class="detail-card-title">Venue</div>
-          <div class="detail-card-val">Avanee Hills</div>
-          <div class="detail-card-sub">Mawanella, Sri Lanka</div>
+          <div class="detail-card-val" data-b64="QXZhbmVlIEhpbGxz"></div>
+          <div class="detail-card-sub" data-b64="TWF3YW5lbGxhLCBTcmkgTGFua2E="></div>
           <a class="map-btn" href="https://maps.app.goo.gl/3gJLwsRPc2XH9YRW6" target="_blank" rel="noopener">View on Map
             ✦</a>
         </div>
@@ -2278,6 +2278,7 @@
 
       <div class="rsvp-form reveal reveal-delay-2">
         <div id="rsvp-input">
+          <div id="rsvp-last-updated" style="display:none; font-size:12.5px; color:#c9963a; opacity:0.85; margin-bottom:14px; letter-spacing:0.02em;"></div>
           <div class="form-group">
             <label class="form-label" for="rg-name">Your Name</label>
             <input class="form-input" type="text" id="rg-name" placeholder="Enter your name" autocomplete="name" oninput="clearRsvpFieldError('name')">
@@ -2324,7 +2325,7 @@
         <circle cx="20" cy="34" r="2" fill="rgba(201,150,58,0.4)" />
       </svg>
     </div>
-    <div class="footer-names">Navodya &amp; Thilina</div>
+    <div class="footer-names" data-b64="TmF2b2R5YSAmIFRoaWxpbmE="></div>
     <div class="footer-contact">
       RSVP: <span style="display:inline-flex; align-items:center; gap:8px; justify-content:center; margin-bottom:5px;">
         0705390576 (Thilina)
@@ -2344,7 +2345,7 @@
           </svg>
         </a>
       </span><br>
-      26 · 08 · 2026 · Avanee Hills, Mawanella
+      <span data-b64="MjYgwrcgMDggwrcgMjAyNiDCtyBBdmFuZWUgSGlsbHMsIE1hd2FuZWxsYQ=="></span>
     </div>
     <div class="footer-love">Made with ♡ for our special day</div>
     <div class="footer-copyright">
@@ -2376,6 +2377,7 @@
     var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz75byHwbIpl-FWFZirn6o_kPrgeTbYjTJqVPPJOJ0mjMDU_GXT2wT-QeC4LWNGpY_yKg/exec';
     var DEFAULT_GUEST = 'Valued Guest';
     var rsvpChoice = null;
+    var rsvpHasExistingResponse = false;
     var musicPlaying = false;
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -2563,6 +2565,38 @@
       if (nameGroup) nameGroup.style.display = 'none';
     }
 
+    function loadPreviousRSVP(guestName) {
+      if (!SCRIPT_URL) return;
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getRSVP', guest_name: guestName, token: window.RSVP_TOKEN })
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (result) {
+          if (result && result.found) {
+            rsvpHasExistingResponse = true;
+            if (result.attending === 'yes' || result.attending === 'no') {
+              pick(result.attending);
+            }
+            var msgField = document.getElementById('rsvp-msg');
+            if (msgField && result.message) msgField.value = result.message;
+
+            var lastUpdated = document.getElementById('rsvp-last-updated');
+            if (lastUpdated && result.timestamp) {
+              var d = new Date(result.timestamp);
+              if (!isNaN(d.getTime())) {
+                var dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Colombo' });
+                var timeStr = d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Colombo' });
+                lastUpdated.textContent = 'You last responded on ' + dateStr + ' at ' + timeStr;
+                lastUpdated.style.display = 'block';
+              }
+            }
+          }
+        })
+        .catch(function () { });
+    }
+
     function pick(v) {
       rsvpChoice = v;
       document.getElementById('btn-yes').className = 'attend-btn' + (v === 'yes' ? ' sel' : '');
@@ -2638,9 +2672,16 @@
       var done = document.getElementById('rsvp-done');
       done.style.display = 'block';
       document.getElementById('rsvp-ok-msg').textContent = rsvpChoice === 'yes' ? 'See you there! ✦' : "We'll miss you.";
-      document.getElementById('rsvp-ok-sub').textContent = rsvpChoice === 'yes'
-        ? "Thank you! We've noted your RSVP. We can't wait to celebrate with you! 🪷"
-        : 'Thank you for letting us know. We hope to celebrate together another time!';
+      if (rsvpHasExistingResponse) {
+        document.getElementById('rsvp-ok-sub').textContent = rsvpChoice === 'yes'
+          ? "Thank you! Your RSVP has been updated. We can't wait to celebrate with you! 🪷"
+          : "Thank you for letting us know your updated response. We hope to celebrate together another time!";
+      } else {
+        document.getElementById('rsvp-ok-sub').textContent = rsvpChoice === 'yes'
+          ? "Thank you! We've noted your RSVP. We can't wait to celebrate with you! 🪷"
+          : 'Thank you for letting us know. We hope to celebrate together another time!';
+      }
+      rsvpHasExistingResponse = true;
     }
 
     /* ── Countdown ── */
@@ -2690,7 +2731,23 @@
       var envNames = document.getElementById('env-names');
       var envDate = document.getElementById('env-date');
 
+      function b64Decode(str) {
+        try {
+          var binary = atob(str);
+          var bytes = new Uint8Array(binary.length);
+          for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+          return new TextDecoder('utf-8').decode(bytes);
+        } catch (e) { return ''; }
+      }
+
+      function revealAllGatedText() {
+        document.querySelectorAll('[data-b64]').forEach(function (el) {
+          if (!el.textContent && el.dataset.b64) el.textContent = b64Decode(el.dataset.b64);
+        });
+      }
+
       function revealNamesAndDate() {
+        revealAllGatedText();
         if (envNames) { envNames.style.filter = 'none'; envNames.style.opacity = '1'; }
         if (envDate) { envDate.style.filter = 'none'; envDate.style.opacity = '1'; }
       }
@@ -2706,12 +2763,16 @@
       }
 
       try {
-        var name = new URLSearchParams(window.location.search).get('guest') || new URLSearchParams(window.location.search).get('name');
+        var params = new URLSearchParams(window.location.search);
+        var name = params.get('guest') || params.get('name');
+        var token = params.get('token');
+        window.RSVP_TOKEN = token;
 
-        if (!name || !name.trim()) {
-          // No guest parameter: nothing to verify, reveal immediately
-          revealNamesAndDate();
-          showButton();
+        if (!name || !name.trim() || !token || !token.trim()) {
+          // No guest name and/or token in the URL — every visitor must have
+          // a valid, personalised link (name + token), so this is always invalid.
+          if (checking) checking.style.display = 'none';
+          showNotEligible();
           return;
         }
 
@@ -2739,7 +2800,7 @@
           fetch(SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'checkGuest', guest_name: name.trim() })
+            body: JSON.stringify({ action: 'checkGuest', guest_name: name.trim(), token: token.trim() })
           })
             .then(function (res) { return res.json(); })
             .then(function (result) {
@@ -2747,6 +2808,7 @@
               if (result && result.eligible) {
                 revealNamesAndDate();
                 showButton();
+                loadPreviousRSVP(name.trim());
               } else {
                 showNotEligible();
               }
