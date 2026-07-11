@@ -2012,14 +2012,15 @@
           </svg>
           <div style="height:1px; width:40px; background:linear-gradient(to left, transparent, #c9963a);"></div>
         </div>
-        <div class="env-names">Navodya &amp; Thilina</div>
-        <div class="env-date">26 · 08 · 2026</div>
+        <div class="env-names" id="env-names">Navodya &amp; Thilina</div>
+        <div class="env-date" id="env-date">26 · 08 · 2026</div>
         <button class="env-open-btn" id="env-open-btn" onclick="openInvitation()">Open Invitation</button>
         <div id="env-checking" style="display:none; color:#c9963a; font-size:13px; margin-top:14px; letter-spacing:0.05em;">
           Verifying your invitation…
         </div>
-        <div id="env-not-eligible" style="display:none; color:#c0392b; font-size:14px; margin-top:14px; max-width:260px; line-height:1.6; text-align:center;">
-          Sorry, this invitation link is not valid for you. Please contact the couple if you believe this is a mistake.
+        <div id="env-not-eligible" style="display:none; margin-top:18px; max-width:280px; padding:16px 20px; background:rgba(0,0,0,0.25); border:1px solid rgba(201,150,58,0.4); border-radius:6px;">
+          <div style="font-family:'Cormorant Garamond', serif; font-weight:600; font-size:19px; letter-spacing:0.02em; color:#f3e3c3; margin-bottom:6px;">Invitation Not Found</div>
+          <div style="font-family:'Lato', sans-serif; font-size:13.5px; line-height:1.7; color:#e8d3b0; opacity:0.9;">This link isn't valid for you. Please contact the couple if you believe this is a mistake.</div>
         </div>
       </div>
     </div>
@@ -2708,8 +2709,17 @@
           var btn = document.getElementById('env-open-btn');
           var checking = document.getElementById('env-checking');
           var notEligible = document.getElementById('env-not-eligible');
+          var envNames = document.getElementById('env-names');
+          var envDate = document.getElementById('env-date');
           if (btn) { btn.style.display = 'none'; btn.disabled = true; }
           if (checking) checking.style.display = 'block';
+
+          function showNotEligible() {
+            if (checking) checking.style.display = 'none';
+            if (notEligible) notEligible.style.display = 'block';
+            if (envNames) envNames.style.display = 'none';
+            if (envDate) envDate.style.display = 'none';
+          }
 
           if (SCRIPT_URL) {
             fetch(SCRIPT_URL, {
@@ -2722,14 +2732,11 @@
                 if (checking) checking.style.display = 'none';
                 if (result && result.eligible) {
                   if (btn) { btn.style.display = ''; btn.disabled = false; }
-                } else if (notEligible) {
-                  notEligible.style.display = 'block';
+                } else {
+                  showNotEligible();
                 }
               })
-              .catch(function () {
-                if (checking) checking.style.display = 'none';
-                if (notEligible) notEligible.style.display = 'block';
-              });
+              .catch(showNotEligible);
           } else if (checking) {
             checking.style.display = 'none';
           }

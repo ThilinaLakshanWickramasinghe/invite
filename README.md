@@ -192,7 +192,8 @@ The "Open Invitation" button is gated in `index.html` to close a race-condition 
 
 - When a `?guest=`/`?name=` parameter is present, the **Open Invitation button is hidden by default** and a "Verifying your invitation…" message is shown while the `checkGuest` request is in flight.
 - The button is only revealed if the response confirms `eligible: true`.
-- If the guest is not found, **or** the request fails for any reason (network error, script error, timeout), the button stays hidden and the "not eligible" message is shown instead — the gate fails closed, never open.
+- If the guest is not found, **or** the request fails for any reason (network error, script error, timeout), the button stays hidden and an "Invitation Not Found" message is shown instead — the gate fails closed, never open.
+- **The couple's names and wedding date are also hidden** on an invalid link, so no wedding details are revealed to anyone outside the guest list — only the "Invitation Not Found" message is visible.
 - Links without a guest parameter are unaffected and open normally.
 
 ---
