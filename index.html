@@ -2015,6 +2015,9 @@
         <div class="env-names">Navodya &amp; Thilina</div>
         <div class="env-date">26 · 08 · 2026</div>
         <button class="env-open-btn" id="env-open-btn" onclick="openInvitation()">Open Invitation</button>
+        <div id="env-checking" style="display:none; color:#c9963a; font-size:13px; margin-top:14px; letter-spacing:0.05em;">
+          Verifying your invitation…
+        </div>
         <div id="env-not-eligible" style="display:none; color:#c0392b; font-size:14px; margin-top:14px; max-width:260px; line-height:1.6; text-align:center;">
           Sorry, this invitation link is not valid for you. Please contact the couple if you believe this is a mistake.
         </div>
@@ -2698,7 +2701,16 @@
           }
           syncRsvpNameField();
 
-          // Check guest eligibility against the guest list sheet
+          // Check guest eligibility against the guest list sheet.
+          // Gate closed by default: the Open button stays hidden until the
+          // sheet confirms this guest, so nothing is shown during the check
+          // or if the check fails (fail-closed, not fail-open).
+          var btn = document.getElementById('env-open-btn');
+          var checking = document.getElementById('env-checking');
+          var notEligible = document.getElementById('env-not-eligible');
+          if (btn) { btn.style.display = 'none'; btn.disabled = true; }
+          if (checking) checking.style.display = 'block';
+
           if (SCRIPT_URL) {
             fetch(SCRIPT_URL, {
               method: 'POST',
@@ -2707,14 +2719,19 @@
             })
               .then(function (res) { return res.json(); })
               .then(function (result) {
-                if (!result.eligible) {
-                  var btn = document.getElementById('env-open-btn');
-                  var notEligible = document.getElementById('env-not-eligible');
-                  if (btn) btn.style.display = 'none';
-                  if (notEligible) notEligible.style.display = 'block';
+                if (checking) checking.style.display = 'none';
+                if (result && result.eligible) {
+                  if (btn) { btn.style.display = ''; btn.disabled = false; }
+                } else if (notEligible) {
+                  notEligible.style.display = 'block';
                 }
               })
-              .catch(function () { });
+              .catch(function () {
+                if (checking) checking.style.display = 'none';
+                if (notEligible) notEligible.style.display = 'block';
+              });
+          } else if (checking) {
+            checking.style.display = 'none';
           }
         }
       } catch (e) { }

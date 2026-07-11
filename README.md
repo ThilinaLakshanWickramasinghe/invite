@@ -186,6 +186,15 @@ function doPost(e) {
 
 After editing the Apps Script code: **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**.
 
+### Frontend gate (fail-closed)
+
+The "Open Invitation" button is gated in `index.html` to close a race-condition bug where the button was briefly clickable (or stayed clickable if the eligibility check failed) before the check completed:
+
+- When a `?guest=`/`?name=` parameter is present, the **Open Invitation button is hidden by default** and a "Verifying your invitation…" message is shown while the `checkGuest` request is in flight.
+- The button is only revealed if the response confirms `eligible: true`.
+- If the guest is not found, **or** the request fails for any reason (network error, script error, timeout), the button stays hidden and the "not eligible" message is shown instead — the gate fails closed, never open.
+- Links without a guest parameter are unaffected and open normally.
+
 ---
 
 ## 🛠️ Customisation
