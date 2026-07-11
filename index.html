@@ -2012,9 +2012,9 @@
           </svg>
           <div style="height:1px; width:40px; background:linear-gradient(to left, transparent, #c9963a);"></div>
         </div>
-        <div class="env-names" id="env-names">Navodya &amp; Thilina</div>
-        <div class="env-date" id="env-date">26 · 08 · 2026</div>
-        <button class="env-open-btn" id="env-open-btn" onclick="openInvitation()">Open Invitation</button>
+        <div class="env-names" id="env-names" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;">Navodya &amp; Thilina</div>
+        <div class="env-date" id="env-date" style="filter:blur(14px); opacity:0.35; transition:filter 0.5s ease, opacity 0.5s ease;">26 · 08 · 2026</div>
+        <button class="env-open-btn" id="env-open-btn" style="display:none;" disabled onclick="openInvitation()">Open Invitation</button>
         <div id="env-checking" style="display:none; color:#c9963a; font-size:13px; margin-top:14px; letter-spacing:0.05em;">
           Verifying your invitation…
         </div>
@@ -2685,61 +2685,76 @@
 
     /* ── URL guest personalisation & eligibility check ── */
     (function () {
+      var btn = document.getElementById('env-open-btn');
+      var checking = document.getElementById('env-checking');
+      var notEligible = document.getElementById('env-not-eligible');
+      var envNames = document.getElementById('env-names');
+      var envDate = document.getElementById('env-date');
+
+      function revealNamesAndDate() {
+        if (envNames) { envNames.style.filter = 'none'; envNames.style.opacity = '1'; }
+        if (envDate) { envDate.style.filter = 'none'; envDate.style.opacity = '1'; }
+      }
+
+      function showButton() {
+        if (btn) { btn.style.display = ''; btn.disabled = false; }
+      }
+
+      function showNotEligible() {
+        if (checking) checking.style.display = 'none';
+        if (notEligible) notEligible.style.display = 'block';
+        // envNames/envDate stay blurred — never revealed on a failed check
+      }
+
       try {
         var name = new URLSearchParams(window.location.search).get('guest') || new URLSearchParams(window.location.search).get('name');
-        if (name && name.trim()) {
-          name = name.replace(/_/g, ' ');
-          DEFAULT_GUEST = name.trim();
-          var gd = document.getElementById('guest-name-display');
-          var rg = document.getElementById('rsvp-guest-name');
-          if (gd) gd.textContent = name.trim();
-          if (rg) rg.textContent = name.trim();
 
-          // Pre-fill and hide the RSVP name input
-          var nameInput = document.getElementById('rg-name');
-          if (nameInput) {
-            nameInput.value = name.trim();
-          }
-          syncRsvpNameField();
+        if (!name || !name.trim()) {
+          // No guest parameter: nothing to verify, reveal immediately
+          revealNamesAndDate();
+          showButton();
+          return;
+        }
 
-          // Check guest eligibility against the guest list sheet.
-          // Gate closed by default: the Open button stays hidden until the
-          // sheet confirms this guest, so nothing is shown during the check
-          // or if the check fails (fail-closed, not fail-open).
-          var btn = document.getElementById('env-open-btn');
-          var checking = document.getElementById('env-checking');
-          var notEligible = document.getElementById('env-not-eligible');
-          var envNames = document.getElementById('env-names');
-          var envDate = document.getElementById('env-date');
-          if (btn) { btn.style.display = 'none'; btn.disabled = true; }
-          if (checking) checking.style.display = 'block';
+        name = name.replace(/_/g, ' ');
+        DEFAULT_GUEST = name.trim();
+        var gd = document.getElementById('guest-name-display');
+        var rg = document.getElementById('rsvp-guest-name');
+        if (gd) gd.textContent = name.trim();
+        if (rg) rg.textContent = name.trim();
 
-          function showNotEligible() {
-            if (checking) checking.style.display = 'none';
-            if (notEligible) notEligible.style.display = 'block';
-            if (envNames) envNames.style.display = 'none';
-            if (envDate) envDate.style.display = 'none';
-          }
+        // Pre-fill and hide the RSVP name input
+        var nameInput = document.getElementById('rg-name');
+        if (nameInput) {
+          nameInput.value = name.trim();
+        }
+        syncRsvpNameField();
 
-          if (SCRIPT_URL) {
-            fetch(SCRIPT_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify({ action: 'checkGuest', guest_name: name.trim() })
+        // Check guest eligibility against the guest list sheet.
+        // Gate closed by default: names/date stay blurred and the Open
+        // button stays hidden until the sheet confirms this guest — nothing
+        // is revealed during the check or if the check fails (fail-closed).
+        if (checking) checking.style.display = 'block';
+
+        if (SCRIPT_URL) {
+          fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'checkGuest', guest_name: name.trim() })
+          })
+            .then(function (res) { return res.json(); })
+            .then(function (result) {
+              if (checking) checking.style.display = 'none';
+              if (result && result.eligible) {
+                revealNamesAndDate();
+                showButton();
+              } else {
+                showNotEligible();
+              }
             })
-              .then(function (res) { return res.json(); })
-              .then(function (result) {
-                if (checking) checking.style.display = 'none';
-                if (result && result.eligible) {
-                  if (btn) { btn.style.display = ''; btn.disabled = false; }
-                } else {
-                  showNotEligible();
-                }
-              })
-              .catch(showNotEligible);
-          } else if (checking) {
-            checking.style.display = 'none';
-          }
+            .catch(showNotEligible);
+        } else {
+          showNotEligible();
         }
       } catch (e) { }
     })();
