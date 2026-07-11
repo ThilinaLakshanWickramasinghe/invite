@@ -2014,7 +2014,10 @@
         </div>
         <div class="env-names">Navodya &amp; Thilina</div>
         <div class="env-date">26 · 08 · 2026</div>
-        <button class="env-open-btn" onclick="openInvitation()">Open Invitation</button>
+        <button class="env-open-btn" id="env-open-btn" onclick="openInvitation()">Open Invitation</button>
+        <div id="env-not-eligible" style="display:none; color:#c0392b; font-size:14px; margin-top:14px; max-width:260px; line-height:1.6; text-align:center;">
+          Sorry, this invitation link is not valid for you. Please contact the couple if you believe this is a mistake.
+        </div>
       </div>
     </div>
     
@@ -2676,7 +2679,7 @@
       document.addEventListener('DOMContentLoaded', initReveal);
     } else { initReveal(); }
 
-    /* ── URL guest personalisation ── */
+    /* ── URL guest personalisation & eligibility check ── */
     (function () {
       try {
         var name = new URLSearchParams(window.location.search).get('guest') || new URLSearchParams(window.location.search).get('name');
@@ -2694,6 +2697,25 @@
             nameInput.value = name.trim();
           }
           syncRsvpNameField();
+
+          // Check guest eligibility against the guest list sheet
+          if (SCRIPT_URL) {
+            fetch(SCRIPT_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({ action: 'checkGuest', guest_name: name.trim() })
+            })
+              .then(function (res) { return res.json(); })
+              .then(function (result) {
+                if (!result.eligible) {
+                  var btn = document.getElementById('env-open-btn');
+                  var notEligible = document.getElementById('env-not-eligible');
+                  if (btn) btn.style.display = 'none';
+                  if (notEligible) notEligible.style.display = 'block';
+                }
+              })
+              .catch(function () { });
+          }
         }
       } catch (e) { }
     })();
