@@ -36,6 +36,7 @@ https://thilinalakshanwickramasinghe.github.io/invite/?guest=Mr_%20Unknown
 - **Ambient music** — play/pause button with volume slider; music starts when the invitation is opened
 - **Live countdown** — days, hours, minutes & seconds until the wedding
 - **Floating nav pill** — quick links to Details, RSVP & Wishes (appears on scroll)
+  - "Wishes" scrolls to the RSVP section, where the "message for the couple" field doubles as the wishes input
 - **Scroll-reveal animations** — sections fade in as the guest scrolls
 - **Parallax cover portrait** — subtle mouse-follow tilt on desktop
 - **Lotus petal particles** — animated background on the main cover section
@@ -220,8 +221,10 @@ To change the couple's names, wedding date, or venue details, search `index.html
 | Cover | Couple portrait, names, date, oil lamp |
 | Details | Wedding date, time, venue with map link |
 | Countdown | Live timer to the wedding day |
-| RSVP | Guest response form with validation |
+| RSVP | Guest response form with validation; also doubles as the "Wishes" destination (message field) |
 | Footer | Couple monogram, date, contact |
+
+> **Note:** There is no separate guestbook/wishes wall — the nav pill's "Wishes" link points to `#rsvp`, and guests leave their wishes via the optional message field on the RSVP form.
 
 ---
 
