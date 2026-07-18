@@ -35,7 +35,7 @@ https://thilinalakshanwickramasinghe.github.io/invite/
   - If valid, the invitation opens normally
   - If not, the "Open Invitation" button is hidden and an "Invitation Not Found" message is shown instead
   - See [Guest Eligibility Check](#-guest-eligibility-check) below for why a name-only check isn't enough
-- **Ambient music** — a single circular mute/unmute icon button (🔊 / 🔇); music starts automatically at 30% volume when the invitation is opened, and pauses/resumes automatically when the browser tab is hidden/shown
+- **Ambient music** — a plain mute/unmute icon button (🔊 / 🔇), no background/border/circle, just the icon with a subtle drop-shadow for visibility; music starts automatically at 30% volume when the invitation is opened, and pauses/resumes automatically when the browser tab is hidden/shown
 - **Live countdown** — days, hours, minutes & seconds until the wedding
 - **Floating nav pill** — quick links to Details, RSVP & Wishes (appears on scroll)
   - "Wishes" scrolls to the RSVP section, where the "message for the couple" field doubles as the wishes input

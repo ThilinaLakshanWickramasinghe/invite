@@ -1450,54 +1450,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(28, 10, 10, 0.88);
-      border: 0.5px solid rgba(201, 150, 58, 0.45);
-      border-radius: 50%;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       transition: all 0.25s;
-      width: 38px;
-      height: 38px;
-    }
-
-    #music-widget:hover {
-      border-color: rgba(201, 150, 58, 0.7);
-      box-shadow: 0 6px 28px rgba(139, 26, 26, 0.35);
-    }
-
-    #music-widget.playing {
-      animation: musicPulse 2s ease-in-out infinite;
     }
 
     #music-btn {
       background: transparent;
       border: none;
-      font-size: 14px;
+      font-size: 20px;
       cursor: pointer;
       color: #c9963a;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
       transition: transform 0.25s;
       padding: 0;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
     }
 
     #music-btn:hover {
       transform: scale(1.1);
-    }
-
-    @keyframes musicPulse {
-
-      0%,
-      100% {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(201, 150, 58, 0.3);
-      }
-
-      50% {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 10px rgba(201, 150, 58, 0);
-      }
     }
 
     /* =====================================================
