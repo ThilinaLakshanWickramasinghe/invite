@@ -1440,40 +1440,6 @@
     }
 
     /* =====================================================
-       MUSIC TOGGLE & VOLUME
-    ===================================================== */
-    #music-widget {
-      position: fixed;
-      bottom: 12px;
-      right: 12px;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.25s;
-    }
-
-    #music-btn {
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #c9963a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      transition: transform 0.25s;
-      padding: 0;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
-    }
-
-    #music-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* =====================================================
        ENVELOPE OVERLAY
     ===================================================== */
     .envelope-overlay {
@@ -1992,9 +1958,6 @@
   <!-- ╔════════════════════════╗
      ║    MUSIC CONTROLS      ║
      ╚════════════════════════╝ -->
-  <div id="music-widget">
-    <button id="music-btn" title="Mute/unmute music" onclick="toggleMusic(event)">🔊</button>
-  </div>
   <audio id="ambient-audio" loop>
     <source src="assets/music.mp3" type="audio/mpeg">
   </audio>
@@ -2343,13 +2306,9 @@
         }, 500);
 
         var audio = document.getElementById('ambient-audio');
-        var btn = document.getElementById('music-btn');
-        var widget = document.getElementById('music-widget');
         if (audio) {
           audio.play().then(function () {
             musicPlaying = true;
-            if (btn) btn.innerHTML = audio.muted ? '🔇' : '🔊';
-            if (widget && !audio.muted) widget.classList.add('playing');
           }).catch(function () { });
         }
       }
@@ -2457,24 +2416,6 @@
       var dy = (e.clientY - cy) / cy * 4;
       portrait.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
     });
-
-    /* ── Music Mute Toggle ── */
-    function toggleMusic(e) {
-      if (e) e.stopPropagation();
-      var audio = document.getElementById('ambient-audio');
-      var btn = document.getElementById('music-btn');
-      var widget = document.getElementById('music-widget');
-      if (!audio) return;
-      audio.muted = !audio.muted;
-      if (audio.muted) {
-        btn.innerHTML = '🔇';
-        widget.classList.remove('playing');
-      } else {
-        btn.innerHTML = '🔊';
-        widget.classList.add('playing');
-        if (audio.paused) audio.play().catch(function () { });
-      }
-    }
 
     /* ── RSVP ── */
     function getKnownGuestName() {
@@ -2759,21 +2700,12 @@
     /* ── Pause music on tab change ── */
     document.addEventListener('visibilitychange', function () {
       var audio = document.getElementById('ambient-audio');
-      var btn = document.getElementById('music-btn');
-      var widget = document.getElementById('music-widget');
       if (!audio) return;
 
       if (document.hidden) {
-        if (musicPlaying) {
-          audio.pause();
-        }
+        if (musicPlaying) audio.pause();
       } else {
-        if (musicPlaying) {
-          audio.play().then(function () {
-            if (btn) btn.innerHTML = audio.muted ? '🔇' : '🔊';
-            if (widget && !audio.muted) widget.classList.add('playing');
-          }).catch(function () { });
-        }
+        if (musicPlaying) audio.play().catch(function () { });
       }
     });
 
